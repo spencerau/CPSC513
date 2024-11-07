@@ -1,3 +1,4 @@
+
 from pymongo import MongoClient
 from datetime import datetime
 
@@ -9,30 +10,6 @@ db = client['NotesApp']
 folders_collection = db['folders']
 notes_collection = db['notes']
 tags_collection = db['tags']
-
-# all_notes = notes_collection.find()
-# for note in all_notes:
-#     print(note)
-
-# folder = {
-#     'folderId': 4,
-#     'folderName': "Fitness",
-#     'createdAt': datetime(2023, 10, 1)
-# }
-# folders_collection.insert_one(folder)
-
-# for folder in folders_collection.find():
-#     print(folder)
-
-# folders_collection.update_one(
-#     { 'folderId': 4 }, # filter
-#     { '$set': { 'folderName': 'Health & Fitness' } } # update name to health and fitness
-# )
-
-#folders_collection.delete_one({ 'folderId': 4 })
-
-# client.close()
-# print("Connection closed")
 
 
 def printAllNotes():
@@ -100,11 +77,65 @@ def createNewNote():
         'isPinned': new_is_pinned
     }
     notes_collection.insert_one(new_note)
-    
+
+
+# Task 1:
+# Create a new option to print out all details for some given note. Print out all notes by ID
+# and allow a user to select which note they would like to see all details for.
+def printAllDetails():
+    print()
+    all_notes = notes_collection.find()
+    for note in all_notes:
+        print(f"{note.get("noteId")} : {note.get('title')}")
+
+    print("\n Select the ID of the note you wish to see all details for: \n")
+
+    note_id = int(input("Enter the note ID: "))
+
+    selected_note = notes_collection.find_one({'noteId': note_id})
+
+    print()
+
+    for key, value in selected_note.items():
+        print(f"{key}: {value}")
+
+#TODO
+# Task 2:
+# Create a new option to display each folder and the notes that are within them. Display no
+# ids for folders or notes on the output.
+def printAllFolders():
+    pass
+
+#TODO
+# Task 3:
+# Create a feature that always shows the titles of pinned notes when you open the
+# application
+def showPinnedNotes():
+    pass
+
+#TODO
+# Task 4:
+# Create two new options, to edit and delete notes. When editing a note, ensure that you
+# are updating the ‘updatedAt’ attribute to be the current user datetime.
+def editNote():
+    pass
+
+#TODO
+def deleteNote():
+    pass
+
+#TODO
+# Extra Credit (10 points):
+# Create the ability to add, update, and delete folders + tags.
+def folderStuff():
+    pass
 
 
 def main():
     print("Welcome to Your Notes App!")
+
+    print("\nYour Pinned Notes: \n")
+    showPinnedNotes()
 
     while True:
         choice = int(input('''
@@ -112,6 +143,11 @@ def main():
     1. See all notes
     2. Search Notes
     3. Create a new note
+    4. Print all details for a given note
+    5. Display all folders and notes within them
+    6. Edit Note
+    7. Delete Note
+    8. Folder Stuff (Extra Credit)
                    
     Choice: '''))
         match choice:
@@ -121,6 +157,16 @@ def main():
                 searchNotes()
             case 3:
                 createNewNote()
+            case 4:
+                printAllDetails()
+            case 5: 
+                printAllFolders()
+            case 6:
+                editNote()
+            case 7:
+                deleteNote()
+            case 8:
+                folderStuff()
             case _:
                 break
 
