@@ -64,7 +64,7 @@ def createNewNote():
         print(folder['folderId'], folder['folderName'])
     new_folder = int(input("\nEnter a single folder number: "))
 
-    new_is_pinned = bool(input("\nPin NOte? (1/0): "))
+    new_is_pinned = bool(input("\nPin Note? (1/0): "))
 
     new_note = {
         'noteId': new_id,
@@ -99,35 +99,110 @@ def printAllDetails():
     for key, value in selected_note.items():
         print(f"{key}: {value}")
 
-#TODO
+
 # Task 2:
 # Create a new option to display each folder and the notes that are within them. Display no
 # ids for folders or notes on the output.
+# CHATGPT to debug this function
 def printAllFolders():
-    pass
+    all_folders = folders_collection.find()
+    #all_notes = notes_collection.find()
+    for folder in all_folders:
+        print(f"\n{folder.get('folderName')}:")
+        # need to refetch the collection to reset the iterator
+        all_notes = notes_collection.find()
+        for note in all_notes:
+            if note.get('folderId') == folder.get('folderId'):
+                print(f"{note.get('title')} - {note.get('content')}")
 
-#TODO
+
 # Task 3:
 # Create a feature that always shows the titles of pinned notes when you open the
 # application
 def showPinnedNotes():
-    pass
+    pinned_notes = notes_collection.find({'isPinned': True})
+    for note in pinned_notes:
+        print(note.get('title'), " - ", note.get('content'))
 
-#TODO
+
 # Task 4:
 # Create two new options, to edit and delete notes. When editing a note, ensure that you
 # are updating the ‘updatedAt’ attribute to be the current user datetime.
 def editNote():
-    pass
+    print()
+    printAllNotes()
+    print("\n Choose the note you want to edit: \n")
+    note_id = int(input("Enter the note ID: "))
 
-#TODO
+    fields = {
+        1: "title",
+        2: "content",
+        3: "folderId",
+        4: "tags",
+        5: "isPinned"
+    }
+    choice = int(input('''
+        1: Title
+        2: Content
+        3: FolderId
+        4: Tags
+        5: IsPinned 
+                       
+    Enter the field number to update: '''))
+    field = fields.get(choice)
+
+    new_value = input(f"Enter the new value for {field}: ")
+    notes_collection.update_one(
+        {'noteId': note_id},
+        {'$set': {field: new_value}}
+    )
+
+    notes_collection.update_one(
+        {'noteId': note_id},
+        {'$set': {'updatedAt': datetime.now()}}
+    )
+
 def deleteNote():
-    pass
+    print()
+    printAllNotes()
+    print("\n Choose the note you want to delete: \n")
+    note_id = int(input("Enter the note ID: "))
+
+    delete_result = notes_collection.delete_one({'noteId': note_id})
+    if delete_result.deleted_count > 0:
+        print("Note deleted successfully")
+    else:
+        print("No note found with that noteId to delete.")
+
 
 #TODO
 # Extra Credit (10 points):
 # Create the ability to add, update, and delete folders + tags.
-def folderStuff():
+def folder_tag_Stuff():
+    pass
+
+
+def createNewFolder():
+    pass
+
+
+def updateFolder():
+    pass
+
+
+def deleteFolder():
+    pass
+
+
+def createNewTag():
+    pass
+
+
+def updateTag():
+    pass
+
+
+def deleteTag():
     pass
 
 
