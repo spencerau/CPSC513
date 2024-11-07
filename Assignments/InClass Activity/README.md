@@ -1,0 +1,1 @@
+Used ChatGPT for learning how to delete a Hash-Map in Redis-Py
