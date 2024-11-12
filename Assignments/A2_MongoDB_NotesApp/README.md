@@ -1,0 +1,1 @@
+Used ChatGPT for debugging deleteFolder() function
