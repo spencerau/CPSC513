@@ -16,10 +16,8 @@ def list_all_auctions():
             
             if name not in unique_names:
                 unique_names.add(name)
-                # Construct a URL that uses the slug for direct access
                 url = f"https://whiskyhunter.net/auctions/{slug}"
                 
-                # Print the result in a more readable format
                 print(f"Name: {name}")
                 print(f"Link: {url}")
                 print(f"Slug: {slug}\n")
