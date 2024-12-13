@@ -1,8 +1,8 @@
 ### Personal Info
 <ul>
 <li>Jack de Bruyn</li>
-<li>ID #: placeholder</li>
-<li>Email: pholder@chapman.edu</li>  
+<li>ID #: 2399247</li>
+<li>Email: jdebruyn@chapman.edu</li>  
 <br>
 <li>Spencer Au</li>
 <li>ID #: 002385256</li>
